@@ -1,0 +1,11 @@
+package punto3b;
+
+import java.io.FileInputStream;
+
+public class OpenRespuesta extends Respuesta{
+	FileInputStream openedFile;
+	
+	public void OpenRespuesta() {
+		
+	}
+}

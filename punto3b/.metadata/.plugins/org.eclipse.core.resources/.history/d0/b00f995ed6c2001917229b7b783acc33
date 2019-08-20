@@ -1,0 +1,30 @@
+package punto3b;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class Servidor {
+	
+	/* Abre un file normal */
+	public FileInputStream Abrir(String filename) throws FileNotFoundException {
+		return new FileInputStream(new File(filename));
+	}
+	
+	/* lee desde un file input stream una cantidad x de bytes*/
+	public void leer(int cantidad, FileInputStream openedFile) {
+
+		
+	}
+	
+	/* NO se como implementarlo aun */
+	public void Escribir() {
+		System.out.println("no hace nada");
+	}
+	
+	/* Cierra el opened file*/	
+	public void Cerrar(FileInputStream openedFile) throws IOException {
+		openedFile.close();
+	}
+}

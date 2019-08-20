@@ -1,0 +1,5 @@
+package punto3b;
+
+public class OpenRespuesta extends Respuesta{
+
+}

@@ -1,0 +1,27 @@
+package punto3b;
+
+import java.io.FileInputStream;
+
+public class Servidor_stub {
+
+	public Respuesta hanleClient(Argument request) {
+		
+		if (request instanceof OpenArgument) {
+			//desempaquetar y llamar a open de servidor
+			Servidor server = new Servidor();
+			FileInputStream openedFile = server.abrir(((OpenArgument) request).getFilename());
+			Open respuesta = new OpenRespuesta(openedFile);
+		}
+		
+		else if (request instanceof ReadArgument) {
+			
+		}
+		
+		else if (request instanceof ReadArgument) {
+		
+		}
+		
+		else {
+			
+		}
+}

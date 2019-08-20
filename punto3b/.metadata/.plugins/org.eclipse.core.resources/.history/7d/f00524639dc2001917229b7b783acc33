@@ -1,0 +1,10 @@
+package punto3b;
+
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+public class Boton extends JButton implements ActionListener {
+
+	implements ActionListener
+}

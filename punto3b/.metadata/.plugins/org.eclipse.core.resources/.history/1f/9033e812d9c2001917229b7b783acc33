@@ -1,0 +1,14 @@
+package punto3b;
+
+public class Servidor_stub {
+
+	public Respuesta hanleClient(Argument request) {
+		
+		if (request instanceof OpenArgument) {
+			
+		}
+		else if (request instanceof ReadArgument) {
+			
+		}
+	}
+}

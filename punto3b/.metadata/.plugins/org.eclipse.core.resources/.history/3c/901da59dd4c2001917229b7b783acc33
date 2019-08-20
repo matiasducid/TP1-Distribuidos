@@ -1,0 +1,37 @@
+package punto3b;
+
+public class Cliente_stub {
+	
+	public void Abrir(String filename) {
+		
+	}
+	
+	public void leer(int cantidad, string openedFile) {
+
+		BufferedReader br;
+		String curline;
+		try {
+			br = new BufferedReader(new FileReader(filepath));
+
+			while ((curline = br.readLine()) != null) {
+				System.out.println(curline);
+			}
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void Escribir() {
+		
+	}
+	
+	public void Cerrar() {
+		
+	}
+	
+	public 
+
+}

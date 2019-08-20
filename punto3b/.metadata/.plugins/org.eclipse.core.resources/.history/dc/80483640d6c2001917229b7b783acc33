@@ -1,0 +1,58 @@
+package punto3b;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+public class Servidor {
+	
+	/* Abre un file normal */
+	public FileInputStream Abrir(String filename) {
+		return new FileInputStream(new File(filename));
+	}
+	
+	/* lee desde un file input stream una cantidad x de bytes*/
+	public void leer(int cantidad, FileInputStream openedFile) {
+
+		
+	}
+	
+	/* NO se como implementarlo aun */
+	public void Escribir() {
+		System.out.println("no hace nada");
+	}
+	
+	/* Cierra el opened file*/	
+	public void Cerrar(FileInputStream openedFile) {
+		openedFile.close();
+	}
+}
+
+
+
+
+try {
+	File file = new File(filepath);
+
+	FileInputStream in = new FileInputStream(file);
+
+	System.out.println("Total bytes to read from file : "
+			+ in.available());
+
+	int i;
+	StringBuffer buf = new StringBuffer("");
+
+	while ((i = in.read()) != -1) {
+		// convert byte to char and append to StringBuffer
+		buf.append((char) i);
+
+	}
+
+	in.close();
+
+	System.out.println("File contents :");
+	System.out.println(buf);
+
+} catch (IOException e) {
+	e.printStackTrace();
+}

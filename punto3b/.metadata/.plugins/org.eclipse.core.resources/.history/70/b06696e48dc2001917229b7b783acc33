@@ -1,0 +1,28 @@
+package punto3b;
+
+import javax.swing.*;
+
+public class Ventana {
+	public Ventana() {
+		JFrame f = new JFrame("Titulo de ventana");
+		f.setSize(400, 300);
+		
+		//JLabel etiqueta = new JLabel("Ar");
+		//JTextField texto = new JTextField(20);
+		
+		JButton boton_abrir = new JButton("Abrir");
+		JButton boton_leer = new JButton("Leer");
+		JButton boton_escribir = new JButton("Escribir");
+		JButton boton_cerrar = new JButton("Cerrar");
+		
+ 
+		f.add(boton_abrir);
+		f.add(boton_leer);
+		f.add(boton_escribir);
+		f.add(boton_cerrar);
+		
+		
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+}

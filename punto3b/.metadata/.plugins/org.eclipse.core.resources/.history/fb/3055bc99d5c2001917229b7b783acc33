@@ -1,0 +1,54 @@
+package punto3b;
+
+import java.io.IOException;
+
+public class Servidor {
+	
+	public void Abrir(String filename) {
+		/* recibir  parametros, crear un objeto argumento que se serialize y luego enviarlo al socket.*/
+	
+	
+	}
+	
+	public void leer(int cantidad, File openedFile) {
+
+		
+	}
+	
+	public void Escribir() {
+		
+	}
+	
+	public void Cerrar() {
+		
+	}
+}
+
+
+
+
+try {
+	File file = new File(filepath);
+
+	FileInputStream in = new FileInputStream(file);
+
+	System.out.println("Total bytes to read from file : "
+			+ in.available());
+
+	int i;
+	StringBuffer buf = new StringBuffer("");
+
+	while ((i = in.read()) != -1) {
+		// convert byte to char and append to StringBuffer
+		buf.append((char) i);
+
+	}
+
+	in.close();
+
+	System.out.println("File contents :");
+	System.out.println(buf);
+
+} catch (IOException e) {
+	e.printStackTrace();
+}
