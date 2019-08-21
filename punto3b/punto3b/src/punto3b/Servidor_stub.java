@@ -10,6 +10,7 @@ public class Servidor_stub {
 		
 		if (request instanceof OpenArgument) {
 			Servidor server = new Servidor();
+			//deserializar.
 			FileInputStream openedFile = server.abrir(((OpenArgument) request).getFilename());
 			this.respuesta = new OpenRespuesta(openedFile);
 		}

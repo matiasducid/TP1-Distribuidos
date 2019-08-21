@@ -1,5 +1,7 @@
 package punto3b;
 
-public class Argument {
+import java.io.Serializable;
+
+public class Argument implements Serializable{
 
 }
