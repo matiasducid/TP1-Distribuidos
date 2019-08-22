@@ -1,8 +1,0 @@
-package punto3b;
-
-public class Servidor_stub {
-
-	public Respuesta hanleClient(Requerimiento tipoRequerimiento) {
-		
-	}
-}
