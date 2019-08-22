@@ -7,8 +7,8 @@ import javax.swing.*;
 
 public class Ventana{
 	public Ventana() {
-		JFrame f = new JFrame("Ventana de comunicación");
-		f.setSize(600, 400);
+		JFrame f = new JFrame("Titulo de ventana");
+		f.setSize(600, 600);
 		
 		Container cp = f.getContentPane();
 		cp.setLayout(new FlowLayout());
@@ -16,9 +16,6 @@ public class Ventana{
 		cp.add(new Boton("Leer"));
 		cp.add(new Boton("Escribir"));
 		cp.add(new Boton("Cerrar"));
-		
-		//cp.add(new JFileChooser());
-	
 		
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);

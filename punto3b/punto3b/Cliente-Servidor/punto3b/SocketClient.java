@@ -2,30 +2,39 @@ package punto3b;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class SocketClient {
-	public static void main(String args[])  {
-	    // args proporciona el Nombre/IP de Server Destino y el mensaje 
-	    
-		if (args.length != 2)  {
-  		System.out.println("2 argumentos: servidor y mensaje");
-  		System.exit(1);
-	    }
+	int puerto;
+	String server_name;
+	Respuesta respuesta = null;
+	
+	public SocketClient(String server_name, int puerto) {
+	  this.puerto = puerto;
+	  this.server_name = server_name;
+	}
+	
+	public Respuesta run(Argument argumento) {
+		try {
+      		Socket s = new Socket("localhost", 7896);
+			
+      		System.out.println("ESTOT POR MADNAR ALGO");
+	        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 
-	    try {
-  		int puertoServicio = 7896;
-	Socket s = new Socket(args[0], puertoServicio);
-	DataInputStream entrada = new DataInputStream(s.getInputStream());
-	DataOutputStream salida = new DataOutputStream(s.getOutputStream());
-	salida.writeUTF(args[1]);
-	String datos = entrada.readUTF();
-	System.out.println("Recibido: " + datos);
-	s.close();
-   }
-   catch( Exception e) {
-	e.printStackTrace();
-   }
-}
-
+      		ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+	        System.out.println("ESCRIBO ALGO EN EL SOCKET");
+	        out.writeObject(argumento);
+	        System.out.println("ME LLEGA UNA RESPUESTA");
+	        Respuesta r  = (Respuesta)in.readObject();
+	        this.respuesta = r;
+			s.close();
+	   }
+	   catch( Exception e) {
+		   System.out.println("ERROR");
+		   e.printStackTrace();
+	   }
+		return this.respuesta;
+	}
 }

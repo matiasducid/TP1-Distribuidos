@@ -3,12 +3,15 @@ package punto3b;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Servidor {
 	
-	public FileInputStream abrir(String filename) throws FileNotFoundException {
-		return new FileInputStream(new File(filename));
+	public OpenedFile abrir(String filename) throws FileNotFoundException {
+		File file = new File(filename);
+		OpenedFile fos = new OpenedFile(file);
+	    return fos;
 	}
 	
 	public void leer(int cantidad, FileInputStream openedFile) {

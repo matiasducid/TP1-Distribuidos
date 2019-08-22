@@ -20,7 +20,7 @@ public class OpenArgument extends Argument {
 		this.permisos = permisos;
 	}
 
-	public void Argument(String permisos, String filename) {
+	public OpenArgument(String permisos, String filename) {
 		this.setFilename(filename);
 		this.setPermisos(permisos);
 	}
