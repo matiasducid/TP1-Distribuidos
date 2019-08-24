@@ -38,31 +38,38 @@ public class Boton extends JButton implements ActionListener {
 			
 			Component[] componentes = getComponentes(e);//Funcion definida abajo.
 			
-			Texto hostText = (Texto) componentes[0];//Casteo el primer elemento para tener su texto (el host).
-			Texto portText = (Texto)componentes[1];//Casteo el segundo elemento para obtener su texto (el port).
-			System.out.println("Host al que se desea conectar: " + hostText.getText());
-			System.out.println("Port al que se desea conectar: " + portText.getText());
+			//Texto hostText = (Texto) componentes[0];//Casteo el primer elemento para tener su texto (el host).
+			//Texto portText = (Texto)componentes[1];//Casteo el segundo elemento para obtener su texto (el port).
+			//System.out.println("Host al que se desea conectar: " + hostText.getText());
+			//System.out.println("Port al que se desea conectar: " + portText.getText());
 			
 			//QUIZAS ESTA PARTE HABRIA QUE MANEJARLA CON UNA EXCEPCION O ALGUNA VALIDACION POR SI NO SE PUEDE CONECTAR.
-			SocketClient s = new SocketClient(hostText.getText(),Integer.parseInt(portText.getText()));
+			//SocketClient s = new SocketClient(hostText.getText(),Integer.parseInt(portText.getText()));
 			
 			
 		}
 		if (e.getActionCommand() == "Abrir") {
-			byte[] arreglo_temporal = null;
-			System.out.println("Abrir button pressed");
-
-			OpenArgument open = new OpenArgument("777", "/home/matias/Escritorio/nuevaMateria.sh");
-			SocketClient s = new SocketClient("localhost", 7896);
-			OpenRespuesta resp = (OpenRespuesta)s.run(open);
 			
+			boolean cosa = true;
+			int fd;
 			
-		
+			System.out.println("HOLA CAPO2");
+			ClienteStub stub = new ClienteStub();
+			fd = stub.Abrir("/home/anele/Escritorio/cosa.py");
 			
-			System.out.println("TERMINE DE PROCESAR TODO");
+			while(cosa) {
+				ReadRespuesta resp = stub.leer(50, fd);
+				System.out.println(resp.getBuffer());
+				cosa = resp.hayMasDatos;
+			}
+			System.out.println("TERMINEEE");
 		}
 		
 
+		
+		
+		
+		
 		if (e.getActionCommand() == "Leer") {
 			System.out.println("Leer button pressed");			
 	//		String[] argumentosCliente = {"localhost", "mensaje del leer"};
@@ -74,6 +81,7 @@ public class Boton extends JButton implements ActionListener {
 	
 		System.out.println("nada desde boton.");
 	}
+	
 	private Component[] getComponentes(ActionEvent e) { //Funcion que obtiene la lista de componentes del jpanel.
 		Component component = (Component) e.getSource();
 		JFrame frame = (JFrame) SwingUtilities.getRoot(component);//Obtengo el jframe.

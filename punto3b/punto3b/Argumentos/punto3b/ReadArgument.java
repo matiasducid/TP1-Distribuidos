@@ -4,7 +4,7 @@ import java.io.FileDescriptor;
 
 public class ReadArgument extends Argument {
 
-	FileDescriptor fd;
+	int fd;
 	int cantidadALeer;
 
 	public int getCantidadALeer() {
@@ -15,15 +15,15 @@ public class ReadArgument extends Argument {
 		this.cantidadALeer = cantidadALeer;
 	}
 
-	public FileDescriptor getFd() {
+	public int getFd() {
 		return fd;
 	}
 
-	public void setFd(FileDescriptor fd) {
+	public void setFd(int fd) {
 		this.fd = fd;
 	}
 	
-	public ReadArgument(FileDescriptor fd, int cantidadALeer) {
+	public ReadArgument(int fd, int cantidadALeer) {
 		this.setFd(fd);
 		this.setCantidadALeer(cantidadALeer);
 	}

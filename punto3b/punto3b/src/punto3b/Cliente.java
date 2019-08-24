@@ -10,10 +10,10 @@ public class Cliente {
 	
 	public void hacer() {
 		System.out.println("HOLA CAPO2");
-		ClienteStub stub = new ClienteStub();
+		//ClienteStub stub = new ClienteStub();
 		
-		FileDescriptor fd = stub.Abrir("/home/anele/Escritorio/cosa.py");
-		System.out.println("termine de abrir");
+		//int fd = stub.Abrir("/home/anele/Escritorio/cosa.py");
+		//System.out.println("termine de abrir"+fd);
 		
 	}
 }

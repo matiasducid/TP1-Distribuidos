@@ -10,17 +10,21 @@ public class ServidorStub {
 	
 	//Metodos para manejar un cliente nuevo
 	
-	public Respuesta handleClient(Argument request) throws ClassNotFoundException, IOException {
+	public Respuesta handleClient(Argument request, ManejadorArchivos manejador) throws ClassNotFoundException, IOException {
 		
 		if (request instanceof OpenArgument) {
 			OpenArgument argumento = (OpenArgument)request;
 			FileDescriptor fd = this.server.abrir(argumento.getFilename());
-			this.respuesta = new OpenRespuesta(fd);
+			OpenedFile of = new OpenedFile();
+			of.setFd(fd);
+			manejador.setOpenedFile(of);
+			this.respuesta = new OpenRespuesta(of.getId());
 		}
 		
 		else if (request instanceof ReadArgument) {
 			ReadArgument argumento = (ReadArgument)request;
-			ReadRespuesta resp = this.server.leer(argumento.getCantidadALeer(), argumento.getFd());
+			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());	
+			ReadRespuesta resp = this.server.leer(argumento.getCantidadALeer(),of);
 			this.respuesta = resp;
 		}
 		

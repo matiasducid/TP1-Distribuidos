@@ -19,14 +19,10 @@ public class SocketClient {
 	public Respuesta run(Argument argumento) {
 		try {
       		Socket s = new Socket("localhost", 7896);
-			
-      		System.out.println("ESTOT POR MADNAR ALGO");
 	        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 
       		ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-	        System.out.println("ESCRIBO ALGO EN EL SOCKET");
 	        out.writeObject(argumento);
-	        System.out.println("ME LLEGA UNA RESPUESTA");
 	        Respuesta r  = (Respuesta)in.readObject();
 	        this.respuesta = r;
 			s.close();

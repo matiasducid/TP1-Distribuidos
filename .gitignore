@@ -1,3 +1,2 @@
 *.class
-/punto3b/.metadata/
-
+*.orig

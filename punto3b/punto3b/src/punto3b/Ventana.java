@@ -12,8 +12,8 @@ public class Ventana{
 		
 		Container cp = f.getContentPane();
 		cp.setLayout(null);
-		cp.add(new Texto("Host",10,10,100));
-		cp.add(new Texto("Port",130,10,100));
+		//cp.add(new Texto("Host",10,10,100));
+		//cp.add(new Texto("Port",130,10,100));
 		cp.add(new Boton("Conectar",240,10,120));
 
 		cp.add(new Boton("Abrir",10,100,80));

@@ -7,16 +7,15 @@ public class SocketServer {
 	
 	public static void main(String args[])  {
 		ServidorStub stub = new ServidorStub();
+		ManejadorArchivos manejador = new ManejadorArchivos();
 		try {
       		ServerSocket escuchandoSocket = new ServerSocket(7896);
       		while (true) {
-      			System.out.println("ESPERANDO CONECCCIONES");
     		    Socket socketCliente = escuchandoSocket.accept();
-    		    System.out.println("LLEGO UNA CONECION");
     			ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());
     	        ObjectOutputStream out = new ObjectOutputStream(socketCliente.getOutputStream());
     			Argument request = (Argument)in.readObject();
-    		    Respuesta respuesta = stub.handleClient(request);
+    		    Respuesta respuesta = stub.handleClient(request, manejador);
     		    out.writeObject(respuesta);
     		    socketCliente.close();
       	   	}

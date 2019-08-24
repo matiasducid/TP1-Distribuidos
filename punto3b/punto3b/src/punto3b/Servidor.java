@@ -3,7 +3,6 @@ package punto3b;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Servidor {
@@ -16,9 +15,10 @@ public class Servidor {
 	
 	
 	//Leer
-	public ReadRespuesta leer(int cantidadALeer, FileDescriptor fd) {
+	public ReadRespuesta leer(int cantidadALeer, OpenedFile openedFile) {
 		ReadRespuesta resp = null;
-		FileInputStream openedFile = new FileInputStream(fd);
+		FileInputStream fis = new FileInputStream(openedFile.getFd());
+
 		StringBuffer buf = new StringBuffer("");
 		boolean hayMasDatos = true;
 		
@@ -26,7 +26,8 @@ public class Servidor {
 			int i;
 			int contador = 0;
 			while (contador < cantidadALeer) {
-				i = openedFile.read();
+				++contador;
+				i = fis.read();
 				if (i == -1) {
 					hayMasDatos = false;
 					break;
@@ -35,7 +36,9 @@ public class Servidor {
 					buf.append((char) i);
 				}
 			}
-			resp = new ReadRespuesta(buf, hayMasDatos);
+			openedFile.setFileInputStream(fis);
+			String cadena = new String(buf);
+			resp = new ReadRespuesta(cadena.getBytes(), hayMasDatos);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
