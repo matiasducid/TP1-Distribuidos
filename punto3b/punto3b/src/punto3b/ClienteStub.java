@@ -5,7 +5,7 @@ import java.io.FileDescriptor;
 
 public class ClienteStub {
 	
-	public FileDescriptor abrir(String filename,String host, int port) {
+	public int abrir(String filename,String host, int port) {
 		OpenArgument argumento = new OpenArgument("777", filename);
 		SocketClient s = new SocketClient(host, port);
 		OpenRespuesta respuesta = (OpenRespuesta)s.run(argumento);
@@ -13,7 +13,7 @@ public class ClienteStub {
 	}
 	
 	
-	public ReadRespuesta leer(int cantidad, FileDescriptor fd,String host, int port) {
+	public ReadRespuesta leer(int cantidad, int fd,String host, int port) {
 		ReadArgument argumento = new ReadArgument(fd, cantidad);
 		SocketClient s = new SocketClient(host, port);
 		ReadRespuesta respuesta = (ReadRespuesta)s.run(argumento);

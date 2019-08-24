@@ -6,8 +6,9 @@ public class Main {
 	static String[] cosa;
 	
 	public static void main(String args[]) throws IOException  {
-		Cliente cliente = new Cliente();
+		//Cliente cliente = new Cliente();
 		//Cliente.main(cosa);
+		
 		System.out.println("HOLA CAPO");
 		SocketServer.main(cosa);
 	}

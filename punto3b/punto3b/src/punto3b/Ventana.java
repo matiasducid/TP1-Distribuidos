@@ -26,8 +26,12 @@ public class Ventana{
 		
 		Boton botonLeer = new Boton("Leer",10,100,80);
 		Boton botonEscribir = new Boton("Escribir",150,100,120);
+		Boton botonTj = new Boton("TodoJunto",170,150,80);
+		botonTj.addActionListener(cliente);
 		botonLeer.addActionListener(cliente);
 		botonEscribir.addActionListener(cliente);
+		
+		cp.add(botonTj);
 		cp.add(botonLeer);
 		cp.add(botonEscribir);
 

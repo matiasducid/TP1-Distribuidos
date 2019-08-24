@@ -43,6 +43,28 @@ public class Cliente  implements ActionListener{
 			System.out.println("Escribir boton presseed");
 			
 		}
+		
+		
+		
+		
+		
+		if (e.getActionCommand() == "TodoJunto") {
+			boolean cosa = true;
+			int fd;
+			
+			System.out.println("HOLA CAPO2");
+			ClienteStub stub = new ClienteStub();
+			fd = stub.abrir("/home/anele/Escritorio/cosa.py","localhost", 7896);
+			
+			while(cosa) {
+				ReadRespuesta resp = stub.leer(50, fd, "localhost", 7896);
+				System.out.println(resp.getBuffer());
+				cosa = resp.hayMasDatos;
+			}
+			System.out.println("TERMINEEE");
+		}
+		
+		
 	
 		System.out.println("nada desde el manejador de eventos en el cliente.");
 	}
