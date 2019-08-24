@@ -16,6 +16,8 @@ public class Ventana{
 		cp.add(new Boton("Leer"));
 		cp.add(new Boton("Escribir"));
 		cp.add(new Boton("Cerrar"));
+		cp.add(new Boton("OTRO"));
+		
 		
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);

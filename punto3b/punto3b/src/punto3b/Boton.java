@@ -27,83 +27,10 @@ public class Boton extends JButton implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String aux="";   
-		String texto="";
-	
-		if (e.getActionCommand() == "Abrir") {
-			System.out.println("Abrir button pressed");
-			
-			//ACA DEBO CREAR UN JFileChooser para elegir el path.
-			Component component = (Component) e.getSource(); 
-			JFrame frame = (JFrame) SwingUtilities.getRoot(component);//obtengo el frame donde se encuentra el boton.
-			JFileChooser file=new JFileChooser();
-			frame.add(file); // Agrego al frame el buscador de archivos.
-			frame.setVisible(true);
-
-			/**llamamos el metodo que permite cargar la ventana*/
-			file.showOpenDialog(this);
-			/**abrimos el archivo seleccionado*/
-			File abre=file.getSelectedFile();
-		 
-			/**recorremos el archivo, lo leemos para plasmarlo
-			 *en el area de texto*/
-			if(abre!=null)
-			{     
-				String path = abre.getAbsolutePath();
-				System.out.println(path);
-				ClienteStub clienteStub = new ClienteStub();
-				//clienteStub.abrir(path);
-				clienteStub.Abrir("/home/anele/Escritorio/vacio.txt");
-			} 
-			
+		if (e.getActionCommand() == "OTRO") {
+			Cliente c = new Cliente();
+			c.hacer();
 		}
-		
-		/*
-		if (e.getActionCommand() == "Leer") {
-			System.out.println("Leer button pressed");			
-			String[] argumentosCliente = {"localhost", "mensaje del leer"};
-			SocketClient.main(argumentosCliente);
-			
-
-			//ACA DEBO CREAR UN JFileChooser para elegir el path.
-			Component component = (Component) e.getSource(); 
-			JFrame frame = (JFrame) SwingUtilities.getRoot(component);//obtengo el frame donde se encuentra el boton.
-			JFileChooser file=new JFileChooser();
-			frame.add(file); // Agrego al frame el buscador de archivos.
-			frame.setVisible(true);
-
-			try
-			{
-
-//				JFileChooser file=new JFileChooser();
-				file.showOpenDialog(this);
-
-				File abre=file.getSelectedFile();
-			 
-
-				if(abre!=null)
-				{     
-					FileReader archivos=new FileReader(abre);
-					BufferedReader lee=new BufferedReader(archivos);
-					while((aux=lee.readLine())!=null)
-					{
-						texto+= aux+ "\n";
-					}
-					lee.close();
-				}    
-			}
-			catch(IOException ex)
-			{
-				JOptionPane.showMessageDialog(null,ex+"" +
-						"\nNo se ha encontrado el archivo",
-						"ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
-			}
-			System.out.println(texto);//El texto se almacena en el JTextArea
-			//aca tiene que tener el filepath y los permisos 
-			//llamar al stub el cliente a la funcion abrir
-		}
-		*/
-		System.out.println("nada desde boton.");
 	}	
 }
 

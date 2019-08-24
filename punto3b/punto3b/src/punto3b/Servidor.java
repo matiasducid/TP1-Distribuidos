@@ -1,37 +1,60 @@
 package punto3b;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Servidor {
 	
-	public OpenedFile abrir(String filename) throws FileNotFoundException {
-		File file = new File(filename);
-		OpenedFile fos = new OpenedFile(file);
-	    return fos;
+	//Abrir
+	public FileDescriptor abrir(String filename) throws IOException {
+		FileInputStream file = new FileInputStream(new File(filename));
+		return file.getFD();
 	}
 	
-	public void leer(int cantidad, FileInputStream openedFile) {
+	
+	//Leer
+	public ReadRespuesta leer(int cantidadALeer, FileDescriptor fd) {
+		ReadRespuesta resp = null;
+		FileInputStream openedFile = new FileInputStream(fd);
+		StringBuffer buf = new StringBuffer("");
+		boolean hayMasDatos = true;
+		
 		try {
 			int i;
-			StringBuffer buf = new StringBuffer("");
-
-			while ((i = openedFile.read()) != -1) {
-				buf.append((char) i);
+			int contador = 0;
+			while (contador < cantidadALeer) {
+				i = openedFile.read();
+				if (i == -1) {
+					hayMasDatos = false;
+					break;
+				}
+				else {
+					buf.append((char) i);
+				}
 			}
-		} catch (IOException e) {
+			resp = new ReadRespuesta(buf, hayMasDatos);
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
+		return resp;
 	}
 	
-	public void escribir() {
+	
+	
+	//Escribir
+	public int escribir() {
 		System.out.println("no hace nada");
+		return 0;
 	}
 	
-	public void cerrar(FileInputStream openedFile) throws IOException {
-		openedFile.close();
+	//Cerrar
+	public int cerrar(FileDescriptor fd) throws IOException {
+		FileInputStream stream = new FileInputStream(fd);
+		stream.close();
+		return 0;
 	}
 }
