@@ -1,20 +1,18 @@
 package punto3b;
 
-import java.io.FileDescriptor;
-
 public class CloseArgument extends Argument {
 
-	private FileDescriptor fd;
+	private int fd;
 
-	public FileDescriptor getFd() {
+	public int getFd() {
 		return fd;
 	}
 
-	public void setFd(FileDescriptor fd) {
+	public void setFd(int fd) {
 		this.fd = fd;
 	}
 	
-	public CloseArgument(FileDescriptor fd) {
+	public CloseArgument(int fd) {
 		this.setFd(fd);
 	}
 }

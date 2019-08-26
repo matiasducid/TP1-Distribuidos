@@ -49,12 +49,13 @@ public class Cliente  implements ActionListener{
 		
 		
 		if (e.getActionCommand() == "TodoJunto") {
+			/*
 			boolean cosa = true;
 			int fd;
 			
 			System.out.println("HOLA CAPO2");
 			ClienteStub stub = new ClienteStub();
-			fd = stub.abrir("/home/anele/Escritorio/cosa.py","localhost", 7896);
+			fd = stub.abrir("/home/anele/Escritorio/vacio.py","localhost", 7896);
 			
 			while(cosa) {
 				ReadRespuesta resp = stub.leer(50, fd, "localhost", 7896);
@@ -62,6 +63,14 @@ public class Cliente  implements ActionListener{
 				cosa = resp.hayMasDatos;
 			}
 			System.out.println("TERMINEEE");
+			*/
+			int fd;
+			String cadena = "hola mundoss";
+			ClienteStub stub = new ClienteStub();
+			fd = stub.abrir("/home/anele/Escritorio/vacio.txt","localhost", 7896);
+			int resp = stub.escribir(cadena.getBytes(), fd, "localhost", 7896);
+			int status = stub.cerrar(fd,"localhost", 7896);
+			System.out.println("termneee");
 		}
 		
 		

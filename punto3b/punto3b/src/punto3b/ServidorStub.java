@@ -15,8 +15,7 @@ public class ServidorStub {
 		if (request instanceof OpenArgument) {
 			OpenArgument argumento = (OpenArgument)request;
 			FileDescriptor fd = this.server.abrir(argumento.getFilename());
-			OpenedFile of = new OpenedFile();
-			of.setFd(fd);
+			OpenedFile of = new OpenedFile(fd);
 			manejador.setOpenedFile(of);
 			this.respuesta = new OpenRespuesta(of.getId());
 		}
@@ -24,16 +23,21 @@ public class ServidorStub {
 		else if (request instanceof ReadArgument) {
 			ReadArgument argumento = (ReadArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());	
-			ReadRespuesta resp = this.server.leer(argumento.getCantidadALeer(),of);
+			ReadRespuesta resp = this.server.leer(argumento.getCantidadALeer(),of.getFileInputStream());
 			this.respuesta = resp;
 		}
 		
 		else if (request instanceof WriteArgument) {
-			
+			WriteArgument argumento = (WriteArgument)request;
+			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());	
+			WriteRespuesta resp = this.server.escribir(argumento.getBuf(), of.getFileOutputStream());
+			this.respuesta = resp;
 		}
 		
 		else {
-			int resultado = this.server.cerrar(((CloseArgument)request).getFd());
+			CloseArgument argumento = (CloseArgument)request;
+			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
+			int resultado = this.server.cerrar(of.getFd());
 			this.respuesta = new CloseRespuesta(resultado);
 		}
 		return this.respuesta;

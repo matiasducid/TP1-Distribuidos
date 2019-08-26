@@ -21,12 +21,15 @@ public class ClienteStub {
 	}
 	
 	
-	public void escribir(FileDescriptor fd,String host,int port) {
-		//WriteArgument argumento = new WriteArgument();
+	public int escribir(byte[] arreglo, int fd,String host,int port) {
+		WriteArgument argumento = new WriteArgument(arreglo, fd);
+		SocketClient s = new SocketClient(host, port);
+		WriteRespuesta respuesta = (WriteRespuesta)s.run(argumento);
+		return respuesta.getStatus();
 	}
 	
 	
-	public int cerrar(FileDescriptor fd,String host,int port) {
+	public int cerrar(int fd,String host,int port) {
 		CloseArgument argumento = new CloseArgument(fd);
 		SocketClient s = new SocketClient(host, port);
 		CloseRespuesta respuesta = (CloseRespuesta)s.run(argumento);

@@ -38,7 +38,10 @@ public class OpenedFile {
 		this.fileOutputStream = fileOutputStream;
 	}
 	
-	public OpenedFile() {
+	public OpenedFile(FileDescriptor fd) {
 		this.setId(++id);
+		this.setFd(fd);
+		this.setFileInputStream(new FileInputStream(fd));
+		this.setFileOutputStream(new FileOutputStream(fd));
 	}
 }

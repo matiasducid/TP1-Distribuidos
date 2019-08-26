@@ -3,6 +3,7 @@ package punto3b;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Servidor {
@@ -15,10 +16,8 @@ public class Servidor {
 	
 	
 	//Leer
-	public ReadRespuesta leer(int cantidadALeer, OpenedFile openedFile) {
+	public ReadRespuesta leer(int cantidadALeer, FileInputStream fis) {
 		ReadRespuesta resp = null;
-		FileInputStream fis = new FileInputStream(openedFile.getFd());
-
 		StringBuffer buf = new StringBuffer("");
 		boolean hayMasDatos = true;
 		
@@ -36,9 +35,7 @@ public class Servidor {
 					buf.append((char) i);
 				}
 			}
-			openedFile.setFileInputStream(fis);
-			String cadena = new String(buf);
-			resp = new ReadRespuesta(cadena.getBytes(), hayMasDatos);
+			resp = new ReadRespuesta((new String(buf)).getBytes(), hayMasDatos);
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -49,9 +46,16 @@ public class Servidor {
 	
 	
 	//Escribir
-	public int escribir() {
-		System.out.println("no hace nada");
-		return 0;
+	public WriteRespuesta escribir(byte[] buffer, FileOutputStream fos) {
+		WriteRespuesta resp = null;
+		try {
+			fos.write(buffer);
+			resp = new WriteRespuesta(0);
+		} catch (IOException e) {
+			resp = new WriteRespuesta(1);
+		}
+		
+		return resp;
 	}
 	
 	//Cerrar
