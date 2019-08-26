@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.FileDescriptor;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 public class Cliente  implements ActionListener{
@@ -24,49 +25,40 @@ public class Cliente  implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String host;
+		String host,fileLocal,fileServer;
 		int port;
 
+		Component[] componentes = getComponentes(e); //Obtengo los componentes del JFrame e inicializo objetos de los que quiero.
+		Texto hostTextBox = (Texto)componentes[0];
+		Texto portTextBox = (Texto)componentes[1];
+		Texto fileLocalTextBox = (Texto)componentes[2];
+		Texto fileServerTextBox = (Texto)componentes[3];
+		JTextArea textAreaBox = (JTextArea)componentes[4];
+		host = hostTextBox.getText();
+		port = Integer.parseInt(portTextBox.getText());
+		fileLocal = fileLocalTextBox.getText();
+		fileServer = fileServerTextBox.getText();
+		
 		if (e.getActionCommand() == "Leer") {
-			System.out.println("Leer button pressed");			
-	//		String[] argumentosCliente = {"localhost", "mensaje del leer"};
-	//		SocketClient.main(argumentosCliente);
-			Component[] componentes = getComponentes(e);
-			Texto hostTextBox = (Texto)componentes[0];
-			Texto portTextBox = (Texto)componentes[1];
-			host = hostTextBox.getText();
-			port = Integer.parseInt(portTextBox.getText());
-			//[TODO] llamar a la funcion del cliente que haga la logica necesaria llamando al stub para leer.
-			
-		}
-		if (e.getActionCommand() == "Escribir") {
-			System.out.println("Escribir boton presseed");
-			
-		}
-		
-		
-		
-		
-		
-		if (e.getActionCommand() == "TodoJunto") {
+					
 			boolean cosa = true;
 			int fd;
 			
-			System.out.println("HOLA CAPO2");
+
 			ClienteStub stub = new ClienteStub();
-			fd = stub.abrir("/home/anele/Escritorio/cosa.py","localhost", 7896);
-			
+			fd = stub.abrir(fileLocal,host, port);
 			while(cosa) {
-				ReadRespuesta resp = stub.leer(50, fd, "localhost", 7896);
+				ReadRespuesta resp = stub.leer(50, fd, host, port);
 				System.out.println(resp.getBuffer());
+				textAreaBox.append(resp.getBuffer());
 				cosa = resp.hayMasDatos;
 			}
-			System.out.println("TERMINEEE");
+
 		}
 		
+		if (e.getActionCommand() == "Escribir") {	
+		}		
 		
-	
-		System.out.println("nada desde el manejador de eventos en el cliente.");
 	}
 	private Component[] getComponentes(ActionEvent e) { //Funcion que obtiene la lista de componentes del jpanel.
 		Component component = (Component) e.getSource();
