@@ -1,5 +1,6 @@
 package punto3b;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 
@@ -14,15 +15,15 @@ public class ServidorStub {
 		
 		if (request instanceof OpenArgument) {
 			OpenArgument argumento = (OpenArgument)request;
-			FileDescriptor fd = this.server.abrir(argumento.getFilename());
-			OpenedFile of = new OpenedFile(fd);
+			File file = this.server.abrir(argumento.getFilename());
+			OpenedFile of = new OpenedFile(file);
 			manejador.setOpenedFile(of);
 			this.respuesta = new OpenRespuesta(of.getId());
 		}
 		
 		else if (request instanceof ReadArgument) {
 			ReadArgument argumento = (ReadArgument)request;
-			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());	
+			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
 			ReadRespuesta resp = this.server.leer(argumento.getCantidadALeer(),of.getFileInputStream());
 			this.respuesta = resp;
 		}
@@ -37,7 +38,8 @@ public class ServidorStub {
 		else {
 			CloseArgument argumento = (CloseArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
-			int resultado = this.server.cerrar(of.getFd());
+			int resultado = this.server.cerrar(of.getFileInputStream(), of.getFileOutputStream());
+			manejador.deleteOpenedFileById(of.getId());
 			this.respuesta = new CloseRespuesta(resultado);
 		}
 		return this.respuesta;

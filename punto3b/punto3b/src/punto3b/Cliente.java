@@ -46,18 +46,30 @@ public class Cliente  implements ActionListener{
 			
 
 			ClienteStub stub = new ClienteStub();
-			fd = stub.abrir(fileLocal,host, port);
+			fd = stub.abrir(fileServer,host, port);
+			System.out.println("entro a leer");
 			while(cosa) {
 				ReadRespuesta resp = stub.leer(50, fd, host, port);
 				System.out.println(resp.getBuffer());
 				textAreaBox.append(resp.getBuffer());
 				cosa = resp.hayMasDatos;
 			}
+			stub.cerrar(fd, host, port);
 
 		}
+		// /home/anele/Escritorio/vacio.txt
 		
-		if (e.getActionCommand() == "Escribir") {	
-		}		
+		if (e.getActionCommand() == "Escribir") {
+			boolean cosa = true;
+			int fd;
+			
+			ClienteStub stub = new ClienteStub();
+			fd = stub.abrir("/home/anele/Escritorio/vacio.txt",host, port);
+			String cadena = "HOLA MUNDO CAPO ANELE";
+			int flag = stub.escribir(cadena.getBytes(), fd, host, port);
+			stub.cerrar(fd, host, port);
+		}
+		
 		
 	}
 	private Component[] getComponentes(ActionEvent e) { //Funcion que obtiene la lista de componentes del jpanel.

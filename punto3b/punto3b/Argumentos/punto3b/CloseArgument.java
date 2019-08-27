@@ -2,7 +2,7 @@ package punto3b;
 
 public class CloseArgument extends Argument {
 
-	private int fd;
+	int fd;
 
 	public int getFd() {
 		return fd;

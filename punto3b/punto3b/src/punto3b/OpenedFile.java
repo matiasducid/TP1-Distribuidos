@@ -1,13 +1,15 @@
 package punto3b;
 
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class OpenedFile {
 
 	private static int id = 0;
-	FileDescriptor fd;
+	File file;
 	FileInputStream fileInputStream;
 	FileOutputStream fileOutputStream;
 	
@@ -19,11 +21,11 @@ public class OpenedFile {
 		OpenedFile.id = id;
 	}
 	
-	public FileDescriptor getFd() {
-		return fd;
+	public File getFile() {
+		return file;
 	}
-	public void setFd(FileDescriptor fd) {
-		this.fd = fd;
+	public void setFile(File file) {
+		this.file = file;
 	}
 	public FileInputStream getFileInputStream() {
 		return fileInputStream;
@@ -38,10 +40,10 @@ public class OpenedFile {
 		this.fileOutputStream = fileOutputStream;
 	}
 	
-	public OpenedFile(FileDescriptor fd) {
+	public OpenedFile(File file) throws FileNotFoundException {
 		this.setId(++id);
-		this.setFd(fd);
-		this.setFileInputStream(new FileInputStream(fd));
-		this.setFileOutputStream(new FileOutputStream(fd));
+		this.setFileInputStream(new FileInputStream(file));
+		this.setFileOutputStream(new FileOutputStream(file));
+		this.setFile(file);
 	}
 }

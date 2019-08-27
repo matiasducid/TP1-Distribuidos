@@ -9,7 +9,6 @@ public class ManejadorArchivos {
 	
 	
 	public OpenedFile getOpenedFileById(int fileDescriptor) {
-		
 		OpenedFile of = null;
 		for (int i = 0; i < arrayOpenedFiles.size(); i++) {
 			of = arrayOpenedFiles.get(i);
@@ -21,6 +20,16 @@ public class ManejadorArchivos {
 			}
 		}
 		return of;
+	}
+	
+	
+	public void deleteOpenedFileById(int id) {
+		for (int i = 0; i < arrayOpenedFiles.size(); i++) {
+			OpenedFile of = arrayOpenedFiles.get(i);
+			if (of.getId() == id) {
+				arrayOpenedFiles.remove(of);
+			}
+		}
 	}
 	
 	

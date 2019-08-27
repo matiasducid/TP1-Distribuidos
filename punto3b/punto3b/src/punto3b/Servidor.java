@@ -9,9 +9,9 @@ import java.io.IOException;
 public class Servidor {
 	
 	//Abrir
-	public FileDescriptor abrir(String filename) throws IOException {
-		FileInputStream file = new FileInputStream(new File(filename));
-		return file.getFD();
+	public File abrir(String filename) throws IOException {
+		File file = new File(filename);
+		return file;
 	}
 	
 	
@@ -20,7 +20,7 @@ public class Servidor {
 		ReadRespuesta resp = null;
 		StringBuffer buf = new StringBuffer("");
 		boolean hayMasDatos = true;
-		
+		System.out.println("LLAMADA LEER");
 		try {
 			int i;
 			int contador = 0;
@@ -53,15 +53,19 @@ public class Servidor {
 			resp = new WriteRespuesta(0);
 		} catch (IOException e) {
 			resp = new WriteRespuesta(1);
+			e.printStackTrace();
 		}
-		
 		return resp;
 	}
 	
 	//Cerrar
-	public int cerrar(FileDescriptor fd) throws IOException {
-		FileInputStream stream = new FileInputStream(fd);
-		stream.close();
+	public int cerrar(FileInputStream fis, FileOutputStream fos) throws IOException {
+		try {
+			fis.close();
+			fos.close();
+		} catch (Exception e) {
+			return 1;
+		}		
 		return 0;
 	}
 }
