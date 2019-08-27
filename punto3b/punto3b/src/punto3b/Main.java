@@ -6,7 +6,9 @@ public class Main {
 	static String[] cosa;
 	
 	public static void main(String args[]) throws IOException  {
+
 		Cliente cliente = new Cliente();
-		SocketServer.main(cosa);
+		ServidorStub server = new ServidorStub();
+		server.run();
 	}
 }

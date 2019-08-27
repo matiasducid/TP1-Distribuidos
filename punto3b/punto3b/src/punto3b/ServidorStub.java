@@ -3,15 +3,20 @@ package punto3b;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 public class ServidorStub {
+	
 	private Respuesta respuesta = null;
 	private Servidor server = new Servidor();
+	private ManejadorArchivos manejador = new ManejadorArchivos();
 	
-	//Metodos para manejar un cliente nuevo
-	
-	public Respuesta handleClient(Argument request, ManejadorArchivos manejador) throws ClassNotFoundException, IOException {
+
+	public void handleClient(Argument request) throws ClassNotFoundException, IOException {
 		
 		if (request instanceof OpenArgument) {
 			OpenArgument argumento = (OpenArgument)request;
@@ -42,6 +47,23 @@ public class ServidorStub {
 			manejador.deleteOpenedFileById(of.getId());
 			this.respuesta = new CloseRespuesta(resultado);
 		}
-		return this.respuesta;
+	}
+	
+	public void run() {
+		try {
+      		ServerSocket escuchandoSocket = new ServerSocket(7896);
+      		while (true) {
+    		    Socket socketCliente = escuchandoSocket.accept();
+    			ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());
+    	        ObjectOutputStream out = new ObjectOutputStream(socketCliente.getOutputStream());
+    			Argument request = (Argument)in.readObject();
+    		    this.handleClient(request);
+    		    out.writeObject(this.respuesta);
+    		    socketCliente.close();
+      	   	}
+		}
+     	catch(Exception e) {
+      		e.printStackTrace();
+     	}
 	}
 }

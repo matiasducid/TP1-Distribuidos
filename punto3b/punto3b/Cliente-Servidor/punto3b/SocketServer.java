@@ -15,8 +15,8 @@ public class SocketServer {
     			ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());
     	        ObjectOutputStream out = new ObjectOutputStream(socketCliente.getOutputStream());
     			Argument request = (Argument)in.readObject();
-    		    Respuesta respuesta = stub.handleClient(request, manejador);
-    		    out.writeObject(respuesta);
+    		    //Respuesta respuesta = stub.handleClient(request, manejador);
+    		    out.writeObject(new Respuesta());
     		    socketCliente.close();
       	   	}
 		}
