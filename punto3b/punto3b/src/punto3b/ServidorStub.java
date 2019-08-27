@@ -44,7 +44,7 @@ public class ServidorStub {
 			CloseArgument argumento = (CloseArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
 			int resultado = this.server.cerrar(of.getFileInputStream(), of.getFileOutputStream());
-			manejador.deleteOpenedFileById(of.getId());
+			manejador.deleteOpenedFileById(of.getId()); //:TODO nreoslver
 			this.respuesta = new CloseRespuesta(resultado);
 		}
 	}
@@ -57,8 +57,8 @@ public class ServidorStub {
     			ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());
     	        ObjectOutputStream out = new ObjectOutputStream(socketCliente.getOutputStream());
     			Argument request = (Argument)in.readObject();
-    		    this.handleClient(request);
-    		    out.writeObject(this.respuesta);
+    			this.handleClient(request);
+    			out.writeObject(this.respuesta);
     		    socketCliente.close();
       	   	}
 		}

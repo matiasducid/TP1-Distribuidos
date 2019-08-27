@@ -25,10 +25,13 @@ public class ManejadorArchivos {
 	
 	public void deleteOpenedFileById(int id) {
 		for (int i = 0; i < arrayOpenedFiles.size(); i++) {
+			/*
 			OpenedFile of = arrayOpenedFiles.get(i);
 			if (of.getId() == id) {
 				arrayOpenedFiles.remove(of);
-			}
+			}*/
+			OpenedFile of = arrayOpenedFiles.get(i);
+			this.arrayOpenedFiles.remove(of);
 		}
 	}
 	

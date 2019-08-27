@@ -3,7 +3,11 @@ package punto3b;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -57,17 +61,54 @@ public class Cliente  implements ActionListener{
 			stub.cerrar(fd, host, port);
 
 		}
-		// /home/anele/Escritorio/vacio.txt
+
+		
 		
 		if (e.getActionCommand() == "Escribir") {
-			boolean cosa = true;
+			
+			FileInputStream fis = null;
+			try {
+				fis = new FileInputStream(new File(fileLocal));
+			} catch (FileNotFoundException e2) {
+				e2.printStackTrace();
+			}
+			StringBuffer buf = new StringBuffer("");
 			int fd;
+			int i;
+			int maxCaracteres = 20;
 			
 			ClienteStub stub = new ClienteStub();
-			fd = stub.abrir("/home/anele/Escritorio/vacio.txt",host, port);
-			String cadena = "HOLA MUNDO CAPO ANELE";
-			int flag = stub.escribir(cadena.getBytes(), fd, host, port);
-			stub.cerrar(fd, host, port);
+			fd = stub.abrir(fileServer,host, port);
+			
+			System.out.println("PUNTERO:"+fd);
+			try {
+				
+				while (true) {
+					i = fis.read();
+					if (i == -1) {
+						break;
+					}
+					buf.append((char)i);
+					if (buf.length() == maxCaracteres) {
+						System.out.println(buf);
+						stub.escribir(new String(buf).getBytes(), fd, host, port);
+						buf.delete(0, buf.length());
+					}
+				}
+				stub.cerrar(fd, host, port);
+				
+			}
+			catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				fis.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
 		}
 		
 		

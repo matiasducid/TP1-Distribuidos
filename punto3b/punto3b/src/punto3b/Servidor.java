@@ -60,12 +60,14 @@ public class Servidor {
 	
 	//Cerrar
 	public int cerrar(FileInputStream fis, FileOutputStream fos) throws IOException {
-		try {
-			fis.close();
+		
+		if (fos != null) {
 			fos.close();
-		} catch (Exception e) {
-			return 1;
-		}		
+		}
+		if (fis != null) {
+			fis.close();
+		}
+		
 		return 0;
 	}
 }

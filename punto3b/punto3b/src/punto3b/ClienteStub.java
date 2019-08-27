@@ -1,7 +1,5 @@
 package punto3b;
 
-import java.io.FileDescriptor;
-
 
 public class ClienteStub {
 	
