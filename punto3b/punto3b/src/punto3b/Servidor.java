@@ -20,7 +20,6 @@ public class Servidor {
 		ReadRespuesta resp = null;
 		StringBuffer buf = new StringBuffer("");
 		boolean hayMasDatos = true;
-		System.out.println("LLAMADA LEER");
 		try {
 			int i;
 			int contador = 0;
@@ -36,8 +35,6 @@ public class Servidor {
 					buf.append((char) i);
 				}
 			}
-			
-			
 			resp = new ReadRespuesta((new String(buf)).getBytes(), hayMasDatos);
 		}
 		catch (IOException e) {
@@ -69,6 +66,10 @@ public class Servidor {
 			System.out.println("cerrado input fos");
 		}
 		
+		if (fos != null) {
+			fos.close();
+			System.out.println("cerrado input fos");
+		}
 
 		return 0;
 	}
