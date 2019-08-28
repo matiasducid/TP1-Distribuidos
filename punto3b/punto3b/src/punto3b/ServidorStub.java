@@ -44,8 +44,8 @@ public class ServidorStub {
 			CloseArgument argumento = (CloseArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
 			int resultado = this.server.cerrar(of.getFileInputStream(), of.getFileOutputStream());
-			manejador.deleteOpenedFileById(of.getId()); //:TODO nreoslver
-			this.respuesta = new CloseRespuesta(resultado);
+			manejador.deleteOpenedFileById(of.getId());
+			this.respuesta = new CloseRespuesta(0);
 		}
 	}
 	
