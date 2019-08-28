@@ -16,18 +16,18 @@ class Conexion extends Thread {
 	private Respuesta respuesta = null;
 	
 	
-public Conexion (Socket unSocketCliente,ObjectInputStream in, ObjectOutputStream out,Servidor server,Argument request,ManejadorArchivos manejador) {
+public Conexion(Socket unSocketCliente, ServidorStub serverStub) {
 	try {
 		/* Ya hay una conexion con un cliente, streams de I/O */
-		socketCliente = unSocketCliente;
+		this.socketCliente = unSocketCliente;
+		ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());
+		ObjectOutputStream out = new ObjectOutputStream(socketCliente.getOutputStream());
 		this.entrada = in;
-		this.salida = out;	
+		this.salida = out;
+		Argument request = (Argument)in.readObject();
 		this.request = request;
-		this.server = server;
-		this.manejador = manejador;
-		
-		/* Al servicio */
-//	    System.out.println("Atributos del hilo seteados");
+		this.server = serverStub.getServer();
+		this.manejador = serverStub.getManejador();
 	}
 	catch(Exception e){
 		e.printStackTrace(); 
@@ -36,8 +36,7 @@ public Conexion (Socket unSocketCliente,ObjectInputStream in, ObjectOutputStream
 public void run() {
 	try {
 	/* Provee servicio e imprime */
-//	String datos = "MENSAJE DESDE HILO.";
-	
+	System.out.println("METODO CORRER DEL HILO INICIADO");
 	if (request instanceof OpenArgument) {
 		OpenArgument argumento = (OpenArgument)request;
 		Servidor servidor = server;
@@ -70,12 +69,13 @@ public void run() {
 	}
 	
 	salida.writeObject(this.respuesta);
-    socketCliente.close();
+    socketCliente.close();//[TODO] probablemente se deba cerrar acá, ver si no, cierro en otro lado y descomentar/borrar.
 	
 	/* Fin de un servicio */
 	}
 	catch(Exception e) {
 		e.printStackTrace(); }
+	System.out.println("Termine run");
 	}
 
 

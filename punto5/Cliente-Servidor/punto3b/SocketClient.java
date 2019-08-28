@@ -20,7 +20,9 @@ public class SocketClient {
 	        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
       		ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 	        out.writeObject(argumento);
+	        System.out.println("voy a leer la respuesta");
 	        Respuesta r  = (Respuesta)in.readObject();
+	        System.out.println("me llego una respuesta");
 	        this.respuesta = r;
 	        
 			s.close();
