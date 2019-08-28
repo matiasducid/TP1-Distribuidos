@@ -55,6 +55,7 @@ public class Cliente  implements ActionListener{
 			while(cosa) {
 				ReadRespuesta resp = stub.leer(50, fd, host, port);
 				System.out.println(resp.getBuffer());
+				textAreaBox.setText("");
 				textAreaBox.append(resp.getBuffer());
 				cosa = resp.hayMasDatos;
 			}
