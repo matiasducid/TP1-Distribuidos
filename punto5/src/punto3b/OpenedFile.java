@@ -5,20 +5,18 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class OpenedFile {
 
 	private static int id = 0;
 	private File file;
-	FileInputStream fileInputStream;
-	FileOutputStream fileOutputStream;
+	private FileInputStream fileInputStream;
+	private FileOutputStream fileOutputStream;
 	
 	
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		OpenedFile.id = id;
 	}
@@ -26,7 +24,6 @@ public class OpenedFile {
 	public File getFile() {
 		return file;
 	}
-	
 	public void setFile(File file) {
 		this.file = file;
 	}
@@ -41,26 +38,30 @@ public class OpenedFile {
 			return this.fileInputStream;
 		}
 	}
-		
-	
-	public FileOutputStream getFileOutputStream() throws FileNotFoundException {
-		if(this.fileOutputStream != null) {
-			return this.fileOutputStream;
-		}
-		else {
-			this.setFileOutputStream(new FileOutputStream(this.getFile()));
-			return this.fileOutputStream;
-		}
-	}
-		
-	
-	public void setFileOutputStream(FileOutputStream fileOutputStream) {
-		this.fileOutputStream = fileOutputStream;
-	}
 	
 	
 	public void setFileInputStream(FileInputStream fileInputStream) {
 		this.fileInputStream = fileInputStream;
+	}
+	
+	
+	public FileOutputStream getFileOutputStream() throws FileNotFoundException {
+		if(this.fileOutputStream != null) {
+//			System.out.println("TENGO UN FOS Y LO DEVUELVO");
+			return this.fileOutputStream;
+		}
+		else {
+//			System.out.println("NO TENGO LO CREO Y LO DEVUELVO");
+			this.setFileOutputStream(new FileOutputStream(this.getFile()));
+			return this.fileOutputStream;
+		}
+		
+	}
+	
+	
+	
+	public void setFileOutputStream(FileOutputStream fileOutputStream) {
+		this.fileOutputStream = fileOutputStream;
 	}
 	
 	public OpenedFile(File file) throws FileNotFoundException {

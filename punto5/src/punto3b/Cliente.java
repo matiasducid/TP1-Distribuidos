@@ -48,22 +48,20 @@ public class Cliente  implements ActionListener{
 			boolean cosa = true;
 			int fd;
 			
-
+			textAreaBox.setText("");
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);
 			System.out.println("entro a leer");
-			while(cosa) {
+			while(cosa) { 
 				ReadRespuesta resp = stub.leer(50, fd, host, port);
 				System.out.println(resp.getBuffer());
-//				textAreaBox.setText("");
 				textAreaBox.append(resp.getBuffer());
 				cosa = resp.hayMasDatos;
 			}
 			stub.cerrar(fd, host, port);
-			System.out.println("ya lei");
+
 		}
 
-		
 		
 		if (e.getActionCommand() == "Escribir") {
 			
@@ -76,11 +74,12 @@ public class Cliente  implements ActionListener{
 			StringBuffer buf = new StringBuffer("");
 			int fd;
 			int i;
-			int maxCaracteres = 100;
+			int maxCaracteres = 200;
 			
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);
-
+			
+			System.out.println("PUNTERO:"+fd);
 			try {
 				
 				while (true) {
@@ -108,7 +107,7 @@ public class Cliente  implements ActionListener{
 				e1.printStackTrace();
 			}
 			
-			System.out.println("ya escribi");
+			
 		}
 		
 		
