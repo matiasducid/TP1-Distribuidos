@@ -18,7 +18,6 @@ public class ServidorStub {
 
 	public void handleClient(Argument request) throws ClassNotFoundException, IOException {
 		if (request instanceof OpenArgument) {
-			System.out.println("HOLA CAPOOO1111");
 			OpenArgument argumento = (OpenArgument)request;
 			File file = this.server.abrir(argumento.getFilename());
 			OpenedFile of = new OpenedFile(file);
@@ -27,7 +26,6 @@ public class ServidorStub {
 		}
 		
 		else if (request instanceof ReadArgument) {
-			System.out.println("HOLA CAPOOO1111");
 			ReadArgument argumento = (ReadArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
 			ReadRespuesta resp = this.server.leer(argumento.getCantidadALeer(),of.getFileInputStream());
@@ -35,7 +33,6 @@ public class ServidorStub {
 		}
 		
 		else if (request instanceof WriteArgument) {
-			System.out.println("HOLA CAPOOO");
 			WriteArgument argumento = (WriteArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());	
 			WriteRespuesta resp = this.server.escribir(argumento.getBuf(), of.getFileOutputStream());
@@ -45,7 +42,7 @@ public class ServidorStub {
 		else {
 			CloseArgument argumento = (CloseArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
-			//int resultado = this.server.cerrar(of.fileInputStream, of.fileOutputStream);
+			int resultado = this.server.cerrar(of.fileInputStream, of.fileOutputStream);
 			manejador.deleteOpenedFileById(of.getId());
 			this.respuesta = new CloseRespuesta(0);
 		}

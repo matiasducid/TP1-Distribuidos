@@ -60,17 +60,13 @@ public class Servidor {
 	
 	//Cerrar
 	public int cerrar(FileInputStream fis, FileOutputStream fos) throws IOException {
-		System.out.println("HOLA CERRADDO");
 		if (fis != null) {
 			fis.close();
-			System.out.println("cerrado input fos");
 		}
 		
 		if (fos != null) {
 			fos.close();
-			System.out.println("cerrado input fos");
 		}
-
 		return 0;
 	}
 }
