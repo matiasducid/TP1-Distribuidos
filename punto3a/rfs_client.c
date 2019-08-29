@@ -7,20 +7,6 @@
 #include "rfs.h"
 #include <fcntl.h>
 
-void cosa(file_data * result_2, read_record rfs_read_1_arg, CLIENT *clnt){
-    int n;
-    do {
-    result_2 = rfs_read_1(&rfs_read_1_arg, clnt);
-    if (result_2 == (file_data *) NULL) {
-        clnt_perror (clnt, "Fallo llamada read");
-    }
-    
-    for (n=0; n < result_2->file_data_len; ++n)
-        putchar(result_2->file_data_val[n]);
-    } while (result_2->file_data_len == 20);
-
-}
-
 
 void rfs_1(char *host, char *file_name){
 
@@ -57,7 +43,17 @@ void rfs_1(char *host, char *file_name){
     rfs_read_1_arg.fd = fd;
     rfs_read_1_arg.count = 20;
 
-    cosa(result_2, rfs_read_1_arg, clnt);
+
+    do {
+    result_2 = rfs_read_1(&rfs_read_1_arg, clnt);
+    if (result_2 == (file_data *) NULL) {
+        clnt_perror (clnt, "Fallo llamada read");
+    }
+    
+    for (n=0; n < result_2->file_data_len; ++n)
+        putchar(result_2->file_data_val[n]);
+    } while (result_2->file_data_len == 20);
+
 
     putchar('\n');
     result_3 = rfs_close_1(&rfs_close_1_arg, clnt);
@@ -75,25 +71,52 @@ void rfs_1(char *host, char *file_name){
 /**********************************************/
 
 void rfs_2 (char *host, char*file_name, char*file_name_2){
-	CLIENT *clnt; int *result_1;
+	CLIENT *clnt; 
 	write_record rfs_write;
+	open_record rfs_open_1_arg;
+	
+	int *result_1;
+	int *fd_local;
+	int *fd_remoto;
+	int fd_l, fd_r;
 
-     #ifndef DEBUG
+	#ifndef DEBUG
         clnt = clnt_create (host, RFS, RFS_VERS_1, "udp"); if (clnt == NULL) {
         clnt_pcreateerror (host);
         exit (1);
+    	}
+	#endif
+
+	//Abro el archivo remoto
+	rfs_open_1_arg.file_name = file_name_2;
+    rfs_open_1_arg.flags = O_RDWR;
+	fd_remoto = rfs_open_1(&rfs_open_1_arg, clnt);
+	if (fd_remoto == (int *) NULL) {
+        clnt_perror (clnt, "Fallo llamada open");
     }
-    #endif /* DEBUG */
+	fd_r = *fd_remoto;
+    if (fd_r == -1) {
+        printf("Error al abrir el archivo\n"); return; 
+    }
 
-	/* Archivo origen */
-	rfs_write.archivo_origen.file_name = file_name;
-	rfs_write.archivo_origen.flags = O_RDWR;
 
-	/* Archivo destino */
-	rfs_write.archivo_destino.file_name = file_name_2;
-	rfs_write.archivo_destino.flags = O_RDWR;
+		//Envio datos al servidor
+	rfs_write.fd = *fd_remoto;
+	rfs_write.buf.file_data_len = 1024;
+	int *result_4;
 
-	result_1 = rfs_write_1(&rfs_write, clnt);
+
+	int fd1;
+	char buffer[1024];
+	char * buf_aux[1024];
+	int numbytes;
+	fd1 = open(file_name, O_RDONLY);
+	while ((numbytes = read(fd1, &buffer, sizeof(char))) > 0){
+		strcat(buf_aux, &buffer);
+	}
+	close(fd1);
+	rfs_write.buf.file_data_val = buf_aux;
+	rfs_write_1(&rfs_write, clnt);
 
 }
 

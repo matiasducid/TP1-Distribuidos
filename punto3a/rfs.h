@@ -32,8 +32,8 @@ struct read_record {
 typedef struct read_record read_record;
 
 struct write_record {
-	struct open_record archivo_origen;
-	struct open_record archivo_destino;
+	int fd;
+	file_data buf;
 };
 typedef struct write_record write_record;
 

@@ -44,9 +44,9 @@ xdr_write_record (XDR *xdrs, write_record *objp)
 {
 	register int32_t *buf;
 
-	 if (!xdr_open_record (xdrs, &objp->archivo_origen))
+	 if (!xdr_int (xdrs, &objp->fd))
 		 return FALSE;
-	 if (!xdr_open_record (xdrs, &objp->archivo_destino))
+	 if (!xdr_file_data (xdrs, &objp->buf))
 		 return FALSE;
 	return TRUE;
 }
