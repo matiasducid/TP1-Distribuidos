@@ -44,7 +44,6 @@ public class Cliente  implements ActionListener{
 		fileServer = fileServerTextBox.getText();
 		
 		if (e.getActionCommand() == "Leer") {
-			//agregar escribir
 			
 			Calendar cal = Calendar.getInstance();
 	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");

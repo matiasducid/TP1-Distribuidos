@@ -1,51 +1,63 @@
 package punto3b;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class HiloServidor implements Runnable{
+
+	Socket socketCliente;
+	ObjectInputStream entrada;
+	ObjectOutputStream salida;
 	
-	private Socket socketCliente;
-	private ObjectInputStream entrada;
-	private ObjectOutputStream salida;
-	private Argument request;
-	private Servidor server;
-	private ManejadorArchivos manejador;
-	private Respuesta respuesta = null;
+	Servidor server = new Servidor();
+	ManejadorArchivos manejador;
+	Respuesta respuesta = null;
+	ServidorStub stub;
+		
 	
-	
-public HiloServidor(Socket unSocketCliente, ServidorStub serverStub) {
-	try {
-		/* Ya hay una conexion con un cliente, streams de I/O */
-		this.socketCliente = unSocketCliente;
-		ObjectInputStream in = new ObjectInputStream(socketCliente.getInputStream());
-		ObjectOutputStream out = new ObjectOutputStream(socketCliente.getOutputStream());
-		this.entrada = in;
-		this.salida = out;
-		Argument request = (Argument)in.readObject();
-		this.request = request;
-		this.server = serverStub.getServer();
-		this.manejador = serverStub.getManejador();
+	public HiloServidor(Socket unSocketCliente, ManejadorArchivos manejador) {
+		try {
+			/* Ya hay una conexion con un cliente, streams de I/O */
+			this.socketCliente = unSocketCliente;
+			this.entrada= new ObjectInputStream(socketCliente.getInputStream());
+			this.salida = new ObjectOutputStream(socketCliente.getOutputStream());
+			
+			this.manejador = manejador;
+		}
+		catch(Exception e){
+			e.printStackTrace(); 
+		}
 	}
-	catch(Exception e){
-		e.printStackTrace(); 
+	
+	
+	public void run()  {
+		try{
+			Argument request = (Argument)this.entrada.readObject();
+			this.handleClient(request);
+		    
+			//Respuesta r = new Respuesta();
+			this.salida.writeObject(this.respuesta);
+		    this.socketCliente.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-}
-public void run() {
-	try {
-		/* Provee servicio e imprime */
-		System.out.println("METODO CORRER DEL HILO INICIADO");
+	
+	
+	public void handleClient(Argument request) throws ClassNotFoundException, IOException {
+
 		if (request instanceof OpenArgument) {
 			OpenArgument argumento = (OpenArgument)request;
-			Servidor servidor = server;
-			File file = server.abrir(argumento.getFilename());
+			File file = this.server.abrir(argumento.getFilename());
 			OpenedFile of = new OpenedFile(file);
-			manejador.setOpenedFile(of);
-			this.respuesta = new OpenRespuesta(of.getId());	
+			manejador.setOpenedFile(of);		
+			this.respuesta = new OpenRespuesta(of.getId());
 		}
-	
+		
 		else if (request instanceof ReadArgument) {
 			ReadArgument argumento = (ReadArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
@@ -63,46 +75,10 @@ public void run() {
 		else {
 			CloseArgument argumento = (CloseArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
-			int resultado = this.server.cerrar(of.fileInputStream, of.fileOutputStream);
-			manejador.deleteOpenedFileById(of.getId()); //:TODO nreoslver
+			int resultado = this.server.cerrar(of.dameFis(), of.dameFos());
+			manejador.deleteOpenedFileById(of.getId());
 			this.respuesta = new CloseRespuesta(resultado);
 		}
-		
-		salida.writeObject(this.respuesta);
-	    socketCliente.close();//[TODO] probablemente se deba cerrar acá, ver si no, cierro en otro lado y descomentar/borrar.
-		
-		/* Fin de un servicio */
-		}
-		catch(Exception e) {
-			e.printStackTrace(); }
-		System.out.println("Termine run");
 	}
-
-
-// Getters & Setters
-public Socket getSocketCliente() {
-	return socketCliente;
-}
-public void setSocketCliente(Socket socketCliente) {
-	this.socketCliente = socketCliente;
-}
-public ObjectInputStream getEntrada() {
-	return entrada;
-}
-public void setEntrada(ObjectInputStream entrada) {
-	this.entrada = entrada;
-}
-public ObjectOutputStream getSalida() {
-	return salida;
-}
-public void setSalida(ObjectOutputStream salida) {
-	this.salida = salida;
-}
-public Argument getRequest() {
-	return request;
-}
-public void setRequest(Argument request) {
-	this.request = request;
-}
-
+	
 }
