@@ -7,7 +7,10 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -41,7 +44,21 @@ public class Cliente  implements ActionListener{
 		fileServer = fileServerTextBox.getText();
 		
 		if (e.getActionCommand() == "Leer") {
-					
+			//agregar escribir
+			
+			Calendar cal = Calendar.getInstance();
+	        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	        System.out.println("Hora de inicio lectura");
+	        System.out.println( sdf.format(cal.getTime()) );
+			
+	       
+	        FileOutputStream fos = null;
+			try {
+				fos = new FileOutputStream(new File(fileLocal));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+
 			boolean cosa = true;
 			int fd;
 			ClienteStub stub = new ClienteStub();
@@ -49,11 +66,22 @@ public class Cliente  implements ActionListener{
 			textAreaBox.setText("");
 			while(cosa) {
 				ReadRespuesta resp = stub.leer(50, fd, host, port);
-				System.out.println(resp.getBuffer());
 				textAreaBox.append(resp.getBuffer());
+				try {
+					fos.write(resp.getBuffer().getBytes());
+				} catch (IOException a) {
+					a.printStackTrace();
+				}
 				cosa = resp.hayMasDatos;
 			}
 			stub.cerrar(fd, host, port);
+			try {
+				fos.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+	        System.out.println("Hora de finalizacion lectura");
+	        System.out.println( sdf.format(cal.getTime()) );
 		}
 
 		
@@ -68,7 +96,7 @@ public class Cliente  implements ActionListener{
 			StringBuffer buf = new StringBuffer("");
 			int fd;
 			int i;
-			int maxCaracteres = 50;
+			int maxCaracteres = 1;
 			
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);
