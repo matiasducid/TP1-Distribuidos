@@ -63,7 +63,7 @@ public void run() {
 		else {
 			CloseArgument argumento = (CloseArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());
-			int resultado = this.server.cerrar(of.getFileInputStream(), of.getFileOutputStream());
+			int resultado = this.server.cerrar(of.fileInputStream, of.fileOutputStream);
 			manejador.deleteOpenedFileById(of.getId()); //:TODO nreoslver
 			this.respuesta = new CloseRespuesta(resultado);
 		}
