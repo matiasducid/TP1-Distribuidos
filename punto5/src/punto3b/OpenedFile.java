@@ -9,20 +9,18 @@ import java.io.IOException;
 
 public class OpenedFile {
 
-	private static int id = 0;
+	private static int count= 0;
+	private int id= ++count;
 	private File file;
-	FileInputStream fileInputStream;
-	FileOutputStream fileOutputStream;
+	private FileInputStream fileInputStream;
+	private FileOutputStream fileOutputStream;
 	
 	
 	public int getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
-		OpenedFile.id = id;
-	}
-	
+
 	public File getFile() {
 		return file;
 	}
@@ -34,9 +32,11 @@ public class OpenedFile {
 	
 	public FileInputStream getFileInputStream() throws FileNotFoundException {
 		if (this.fileInputStream != null) {
+			System.out.println("abierto entonces devuelvo");
 			return this.fileInputStream;
 		}
 		else {
+			System.out.println("CERRDO ENTONCES ABRO");
 			this.setFileInputStream(new FileInputStream(this.getFile()));
 			return this.fileInputStream;
 		}
@@ -63,8 +63,17 @@ public class OpenedFile {
 		this.fileInputStream = fileInputStream;
 	}
 	
+	public FileInputStream dameFis() {
+		return this.fileInputStream;
+	}
+	
+	
+	public FileOutputStream dameFos() {
+		return this.fileOutputStream;
+	}
+	
+	
 	public OpenedFile(File file) throws FileNotFoundException {
-		this.setId(++id);
 		this.setFile(file);
 	}
 }

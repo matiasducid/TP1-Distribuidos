@@ -39,6 +39,7 @@ public class ManejadorArchivos {
 		}
 		if (encontrado) {
 			arrayOpenedFiles.remove(of);
+			of = null;
 		}
 		//System.out.println("leng:"+ arrayOpenedFiles.size());
 		

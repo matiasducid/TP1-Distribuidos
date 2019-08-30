@@ -35,6 +35,9 @@ public class ServidorStub {
 		else if (request instanceof WriteArgument) {
 			WriteArgument argumento = (WriteArgument)request;
 			OpenedFile of = manejador.getOpenedFileById(argumento.getFd());	
+			System.out.println("ESCRIBIENDO");
+			System.out.println("iff:"+argumento.getFd());
+			System.out.println("--------------------");
 			WriteRespuesta resp = this.server.escribir(argumento.getBuf(), of.getFileOutputStream());
 			this.respuesta = resp;
 		}
