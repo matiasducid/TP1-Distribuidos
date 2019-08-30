@@ -6,6 +6,7 @@
 
 #include "rfs.h"
 #include <fcntl.h>
+#include <time.h>
 
 
 void rfs_1(char *host, char *file_name){
@@ -49,9 +50,10 @@ void rfs_1(char *host, char *file_name){
     if (result_2 == (file_data *) NULL) {
         clnt_perror (clnt, "Fallo llamada read");
     }
-    
+    int k;
     for (n=0; n < result_2->file_data_len; ++n)
-        putchar(result_2->file_data_val[n]);
+        //putchar(result_2->file_data_val[n]);
+        k = 0;
     } while (result_2->file_data_len == 20);
 
 
@@ -68,7 +70,16 @@ void rfs_1(char *host, char *file_name){
     
 }
 
-/**********************************************/
+void get_hora(){
+    time_t timer;
+    char buffer[26];
+    struct tm* tm_info;
+
+    time(&timer);
+    tm_info = localtime(&timer);
+    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    puts(buffer);
+}
 
 void rfs_2 (char *host, char*file_name, char*file_name_2){
 	CLIENT *clnt; 
@@ -137,7 +148,12 @@ int main (int argc, char *argv[]){
     file_name = argv[2]; /* nombre del archivo a leer */
 	file_name_2 = argv[3];
     
-    //rfs_1 (host, file_name);
-    rfs_2(host, file_name, file_name_2);
+    printf("hora inicio: ");
+    get_hora();
+    rfs_1 (host, file_name);
+    //rfs_2(host, file_name, file_name_2);
+    printf("hora finalizacion: ");
+    get_hora();
+
     exit (0);
 }

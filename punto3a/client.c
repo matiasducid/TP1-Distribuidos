@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <time.h>
 
 void rfs_1(char *host, char *file_name){
 
@@ -80,7 +81,18 @@ int main (int argc, char *argv[]){
     /* nombre del host remoto */
     
     file_name = argv[2]; /* nombre del archivo a leer */
-    rfs_1 (host, file_name);
+    //rfs_1 (host, file_name);
+    
+
+    time_t timer;
+    char buffer[26];
+    struct tm* tm_info;
+
+    time(&timer);
+    tm_info = localtime(&timer);
+
+    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    puts(buffer);
     
     exit (0);
 }
