@@ -63,6 +63,7 @@ public class Cliente  implements ActionListener{
 			int fd;
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);
+			textAreaBox.setText("");
 			while(cosa) {
 				ReadRespuesta resp = stub.leer(50, fd, host, port);
 				textAreaBox.append(resp.getBuffer());
@@ -95,7 +96,7 @@ public class Cliente  implements ActionListener{
 			StringBuffer buf = new StringBuffer("");
 			int fd;
 			int i;
-			int maxCaracteres = 1;
+			int maxCaracteres = 50;
 			
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);

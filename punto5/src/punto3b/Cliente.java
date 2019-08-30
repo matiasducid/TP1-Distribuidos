@@ -18,9 +18,6 @@ public class Cliente  implements ActionListener{
 	public static void main(String[] args) {
 //		Ventana v = new Ventana();
 	}
-	public static void realizarLectura(String host,int port) {
-		System.out.println("realizar lectura llamado");
-	}
 	
 	public Cliente() {
 		Ventana v = new Ventana(this);
@@ -47,24 +44,21 @@ public class Cliente  implements ActionListener{
 					
 			boolean cosa = true;
 			int fd;
-			
-			textAreaBox.setText("");
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);
-			System.out.println("entro a leer");
-			while(cosa) { 
+			textAreaBox.setText("");
+			while(cosa) {
 				ReadRespuesta resp = stub.leer(50, fd, host, port);
 				System.out.println(resp.getBuffer());
 				textAreaBox.append(resp.getBuffer());
 				cosa = resp.hayMasDatos;
 			}
 			stub.cerrar(fd, host, port);
-
 		}
 
 		
+		
 		if (e.getActionCommand() == "Escribir") {
-			
 			FileInputStream fis = null;
 			try {
 				fis = new FileInputStream(new File(fileLocal));
@@ -74,12 +68,11 @@ public class Cliente  implements ActionListener{
 			StringBuffer buf = new StringBuffer("");
 			int fd;
 			int i;
-			int maxCaracteres = 200;
+			int maxCaracteres = 50;
 			
 			ClienteStub stub = new ClienteStub();
 			fd = stub.abrir(fileServer,host, port);
-			
-			System.out.println("PUNTERO:"+fd);
+
 			try {
 				
 				while (true) {
@@ -89,13 +82,11 @@ public class Cliente  implements ActionListener{
 					}
 					buf.append((char)i);
 					if (buf.length() == maxCaracteres) {
-						System.out.println(buf);
 						stub.escribir(new String(buf).getBytes(), fd, host, port);
 						buf.delete(0, buf.length());
 					}
 				}
 				stub.cerrar(fd, host, port);
-				
 			}
 			catch (IOException e1) {
 				e1.printStackTrace();
@@ -103,15 +94,11 @@ public class Cliente  implements ActionListener{
 			try {
 				fis.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			
 		}
-		
-		
 	}
+	
 	private Component[] getComponentes(ActionEvent e) { //Funcion que obtiene la lista de componentes del jpanel.
 		Component component = (Component) e.getSource();
 		JFrame frame = (JFrame) SwingUtilities.getRoot(component);//Obtengo el jframe.
