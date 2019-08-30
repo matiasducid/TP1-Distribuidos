@@ -139,10 +139,17 @@ int main (int argc, char *argv[]){
 	
     /* Se deben pasar nombre de host y de archivo => argc=3 */
     
+
+    if (strcmp(argv[1],"-h")){
+
+        printf("AYudaa");
+    }
     if (argc < 3) {
         printf ("usage: %s server_host filename\n", argv[0]);
         exit (1);
     }
+
+
     
     host = argv[1];/* nombre del host remoto */
     file_name = argv[2]; /* nombre del archivo a leer */
@@ -151,7 +158,7 @@ int main (int argc, char *argv[]){
     printf("hora inicio: ");
     get_hora();
     rfs_1 (host, file_name);
-    //rfs_2(host, file_name, file_name_2);
+    rfs_2(host, file_name, file_name_2);
     printf("hora finalizacion: ");
     get_hora();
 
