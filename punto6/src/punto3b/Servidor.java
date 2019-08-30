@@ -20,10 +20,10 @@ public class Servidor {
 		ReadRespuesta resp = null;
 		StringBuffer buf = new StringBuffer("");
 		boolean hayMasDatos = true;
-		System.out.println("LLAMADA LEER");
 		try {
 			int i;
 			int contador = 0;
+			
 			while (contador < cantidadALeer) {
 				++contador;
 				i = fis.read();
@@ -60,14 +60,13 @@ public class Servidor {
 	
 	//Cerrar
 	public int cerrar(FileInputStream fis, FileOutputStream fos) throws IOException {
-		
-		if (fos != null) {
-			fos.close();
-		}
 		if (fis != null) {
 			fis.close();
 		}
 		
+		if (fos != null) {
+			fos.close();
+		}
 		return 0;
 	}
 }

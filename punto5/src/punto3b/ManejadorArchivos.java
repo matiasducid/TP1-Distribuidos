@@ -3,6 +3,7 @@ package punto3b;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ManejadorArchivos {
 
 	private List<OpenedFile> arrayOpenedFiles = new ArrayList<OpenedFile>();
@@ -24,15 +25,23 @@ public class ManejadorArchivos {
 	
 	
 	public void deleteOpenedFileById(int id) {
+		//System.out.println("ELIMINANDO ARCHIVOS");
+		//System.out.println("ID: "+id);
+		//System.out.println("leng:"+ arrayOpenedFiles.size());
+		boolean encontrado = false;
+		OpenedFile of = null;
 		for (int i = 0; i < arrayOpenedFiles.size(); i++) {
-			/*
-			OpenedFile of = arrayOpenedFiles.get(i);
+			of = arrayOpenedFiles.get(i);
 			if (of.getId() == id) {
-				arrayOpenedFiles.remove(of);
-			}*/
-			OpenedFile of = arrayOpenedFiles.get(i);
-			this.arrayOpenedFiles.remove(of);
+				encontrado = true;
+				break;
+			}
 		}
+		if (encontrado) {
+			arrayOpenedFiles.remove(of);
+		}
+		//System.out.println("leng:"+ arrayOpenedFiles.size());
+		
 	}
 	
 	
