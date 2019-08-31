@@ -8,6 +8,21 @@
 #include <fcntl.h>
 #include <time.h>
 
+#define COMANDO_LEER "-r"
+#define COMANDO_ESCRIBIR "-w"
+
+
+void get_hora(){
+    time_t timer;
+    char buffer[26];
+    struct tm* tm_info;
+
+    time(&timer);
+    tm_info = localtime(&timer);
+    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
+    puts(buffer);
+}
+
 
 void rfs_1(char *host, char *file_name){
 
@@ -50,10 +65,9 @@ void rfs_1(char *host, char *file_name){
     if (result_2 == (file_data *) NULL) {
         clnt_perror (clnt, "Fallo llamada read");
     }
-    int k;
+
     for (n=0; n < result_2->file_data_len; ++n)
-        //putchar(result_2->file_data_val[n]);
-        k = 0;
+        putchar(result_2->file_data_val[n]);
     } while (result_2->file_data_len == 20);
 
 
@@ -70,16 +84,6 @@ void rfs_1(char *host, char *file_name){
     
 }
 
-void get_hora(){
-    time_t timer;
-    char buffer[26];
-    struct tm* tm_info;
-
-    time(&timer);
-    tm_info = localtime(&timer);
-    strftime(buffer, 26, "%Y-%m-%d %H:%M:%S", tm_info);
-    puts(buffer);
-}
 
 void rfs_2 (char *host, char*file_name, char*file_name_2){
 	CLIENT *clnt; 
@@ -110,12 +114,10 @@ void rfs_2 (char *host, char*file_name, char*file_name_2){
         printf("Error al abrir el archivo\n"); return; 
     }
 
-
-		//Envio datos al servidor
+    //Envio datos al servidor
 	rfs_write.fd = *fd_remoto;
 	rfs_write.buf.file_data_len = 1024;
 	int *result_4;
-
 
 	int fd1;
 	char buffer[1024];
@@ -137,30 +139,33 @@ int main (int argc, char *argv[]){
     char *file_name;
 	char *file_name_2;
 	
-    /* Se deben pasar nombre de host y de archivo => argc=3 */
     
-
-    if (strcmp(argv[1],"-h")){
-
-        printf("AYudaa");
-    }
     if (argc < 3) {
-        printf ("usage: %s server_host filename\n", argv[0]);
+        printf("Forma de uso:\n");
+        printf("Para realizar lectura: -r <HOST> <path/archivo/local>\n");
+        printf("Para realizar escritura: -w <HOST> <path/archivo/local> <path/archivo/remoto>\n");
         exit (1);
     }
 
-
-    
-    host = argv[1];/* nombre del host remoto */
-    file_name = argv[2]; /* nombre del archivo a leer */
-	file_name_2 = argv[3];
-    
-    printf("hora inicio: ");
-    get_hora();
-    rfs_1 (host, file_name);
-    rfs_2(host, file_name, file_name_2);
-    printf("hora finalizacion: ");
-    get_hora();
-
+    if (strcmp(argv[1],COMANDO_LEER)==0){
+        host = argv[2];
+        file_name = argv[3];         
+        printf("hora inicio: ");
+        get_hora();
+        rfs_1 (host, file_name);
+        printf("hora finalizacion: ");
+        get_hora();
+        printf("\nLectura Exitosa\n");
+    }
+    else if (strcmp(argv[1],COMANDO_ESCRIBIR)==0){
+        host = argv[2];
+        file_name = argv[3]; 
+        file_name_2 = argv[4];
+        rfs_2(host, file_name, file_name_2);
+        printf("Escritura Exitosa\n");
+    }
+    else{
+        printf("Error de invocacion\n");
+    }
     exit (0);
 }
